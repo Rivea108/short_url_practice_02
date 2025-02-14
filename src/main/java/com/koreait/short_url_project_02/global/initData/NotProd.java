@@ -1,7 +1,7 @@
 package com.koreait.short_url_project_02.global.initData;
 
 import com.koreait.short_url_project_02.domain.article.article.entity.Article;
-import com.koreait.short_url_project_02.domain.article.article.repository.ArticleRepository;
+import com.koreait.short_url_project_02.domain.article.article.service.ArticleService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class NotProd {
     @Autowired
     private NotProd self;
 
-    private final ArticleRepository articleRepository;
+    private final ArticleService articleService;
 
     @Bean // 개발자가 new 하지 않아도 스프링부트가 직접 관리하는 객체
     public ApplicationRunner initDataProd() {
@@ -41,21 +41,14 @@ public class NotProd {
 
     @Transactional
     public void work1() {
-        if (articleRepository.count() > 0) return;
+        if (articleService.count() > 0) return;
 
-        Article article1 = Article.builder().
-                title("제목1")
-                .body("내용1").build();
-        Article article2 = Article.builder().
-                title("제목2")
-                .body("내용2").build();
-
-        articleRepository.save(article1);
-        articleRepository.save(article2);
+        Article article1 = articleService.write("제목 1", "내용 1").getData();
+        Article article2 = articleService.write("제목 2", "내용 2").getData();
 
         article2.setTitle("제목 2-2");
 
-        articleRepository.delete(article1);
+        articleService.delete(article1);
 
     }
 
@@ -63,16 +56,8 @@ public class NotProd {
     public void work2() {
         // List : 0 ~ N
         // Optional : 0 ~ 1
-        Optional<Article> opArticle = articleRepository.findById(2L); // jpa 기본제공
-        List<Article> articles = articleRepository.findAll(); // jpa 기본제공
-
-        List<Article> articlesByIn = articleRepository.findByIdInOrderByTitleDescIdAsc(List.of(1L, 2L));
-
-        System.out.println(articlesByIn.get(0).getTitle());
-
-        List<Article> articlesByLIKE = articleRepository.findByTitleContaining("제목");
-
-        articleRepository.findByTitleAndBody("제목", "내용");
+        Optional<Article> opArticle = articleService.findById(2L); // jpa 기본제공
+        List<Article> articles = articleService.findAll(); // jpa 기본제공
 
     }
 }
