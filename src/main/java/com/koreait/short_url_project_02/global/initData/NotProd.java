@@ -2,6 +2,10 @@ package com.koreait.short_url_project_02.global.initData;
 
 import com.koreait.short_url_project_02.domain.article.article.entity.Article;
 import com.koreait.short_url_project_02.domain.article.article.service.ArticleService;
+import com.koreait.short_url_project_02.domain.member.member.entity.Member;
+import com.koreait.short_url_project_02.domain.member.member.service.MemberService;
+import com.koreait.short_url_project_02.global.exceptions.GlobalException;
+import com.koreait.short_url_project_02.global.rsData.RsData;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +34,7 @@ public class NotProd {
     private NotProd self;
 
     private final ArticleService articleService;
+    private final MemberService memberService;
 
     @Bean // 개발자가 new 하지 않아도 스프링부트가 직접 관리하는 객체
     public ApplicationRunner initDataProd() {
@@ -42,6 +47,16 @@ public class NotProd {
     @Transactional
     public void work1() {
         if (articleService.count() > 0) return;
+
+        Member member1 = memberService.join("user1", "1234", "유저 1").getData();
+        Member member2 = memberService.join("user2", "1234", "유저 2").getData();
+
+        try {
+            RsData<Member> joinRs = memberService.join("user2", "1234", "유저 2");
+        } catch (GlobalException e) {
+            System.out.println("e.getMsg() : " + e.getRsData().getMsg());
+            System.out.println("e.getStatusCode() : " + e.getRsData().getStatusCode());
+        }
 
         Article article1 = articleService.write("제목 1", "내용 1").getData();
         Article article2 = articleService.write("제목 2", "내용 2").getData();
