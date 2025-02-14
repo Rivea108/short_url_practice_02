@@ -19,25 +19,17 @@ public class NotProd {
     @Bean // 개발자가 new 하지 않아도 스프링부트가 직접 관리하는 객체
     public ApplicationRunner initDataProd() {
         return args -> {
-            System.out.println("Not Prod.initNotProd1");
-            System.out.println("Not Prod.initNotProd2");
-            System.out.println("Not Prod.initNotProd3");
+            if(articleRepository.count() > 0) return;
 
-            Article articleFirst = Article.builder().
+            Article article1 = Article.builder().
                     title("제목1")
                     .body("내용1").build();
-            Article articleSecond = Article.builder().
+            Article article2 = Article.builder().
                     title("제목2")
                     .body("내용2").build();
 
-            System.out.println(articleFirst.getId());
-            System.out.println(articleSecond.getId());
-
-            articleRepository.save(articleFirst);
-            articleRepository.save(articleSecond);
-
-            System.out.println(articleFirst.getId());
-            System.out.println(articleSecond.getId());
+            articleRepository.save(article1);
+            articleRepository.save(article2);
         };
     }
 }
