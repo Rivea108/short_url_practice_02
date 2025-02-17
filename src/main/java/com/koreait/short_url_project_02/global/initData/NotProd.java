@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.annotation.Order;
 
 //!prod == dev or test
 
@@ -26,7 +27,8 @@ public class NotProd {
     private final ArticleService articleService;
     private final MemberService memberService;
 
-    @Bean // 개발자가 new 하지 않아도 스프링부트가 직접 관리하는 객체
+    @Bean
+    @Order(4)
     public ApplicationRunner initDataProd() {
         return args -> {
             self.work1();

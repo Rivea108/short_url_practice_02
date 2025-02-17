@@ -10,6 +10,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.annotation.Order;
 
 @Configuration
 @RequiredArgsConstructor
@@ -21,8 +22,9 @@ public class All {
 
     private final MemberService memberService;
 
-    @Bean // 개발자가 new 하지 않아도 스프링부트가 직접 관리하는 객체
-    public ApplicationRunner initDataAll() {
+    @Bean
+    @Order(3)
+    public ApplicationRunner initAll() {
         return args -> {
             self.work1();
         };
