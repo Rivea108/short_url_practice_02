@@ -39,4 +39,7 @@ public class MemberService {
     }
 
 
+    public Member getReferenceById(long id) {
+        return memberRepository.getReferenceById(id);
+    }
 }
