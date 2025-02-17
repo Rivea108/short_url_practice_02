@@ -13,20 +13,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 
-import java.util.List;
-import java.util.Optional;
-
 //!prod == dev or test
 
 @Profile("!prod")
 @Configuration
 @RequiredArgsConstructor
 public class NotProd {
-    // this를 통한 객체 내부에서의 메서드 호출은 @Transactional을 작동시키지 않아
-    // 외부객체에 의한 메서드 호출은 @Transactional이 작동해
-    // @Lazy, @Autowired 조합은 this의 외부 호출 모드 버전의 self 를 얻을 수 있어
-    // self를 통한 메서드 호출은 @Transactional을 작동시킬 수 있어
-
     @Lazy
     @Autowired
     private NotProd self;
@@ -38,7 +30,6 @@ public class NotProd {
     public ApplicationRunner initDataProd() {
         return args -> {
             self.work1();
-            self.work2();
         };
     }
 
@@ -46,27 +37,13 @@ public class NotProd {
     public void work1() {
         if (articleService.count() > 0) return;
 
-        Member member1 = memberService.join("user1", "1234", "유저 1").getData();
-        Member member2 = memberService.join("user2", "1234", "유저 2").getData();
+        Member member1 = memberService.findByUsername("user1").get();
+        Member member2 = memberService.findByUsername("user2").get();
 
-
-        Article article1 = articleService.write(member1,"제목 1", "내용 1").getData();
-        Article article2 = articleService.write(member1,"제목 2", "내용 2").getData();
-        Article article3 = articleService.write(member2,"제목 3", "내용 3").getData();
-        Article article4 = articleService.write(member2,"제목 4", "내용 4").getData();
-
-        article2.setTitle("제목 2-2");
-
-        articleService.delete(article1);
-
-    }
-
-    @Transactional
-    public void work2() {
-        // List : 0 ~ N
-        // Optional : 0 ~ 1
-        Optional<Article> opArticle = articleService.findById(2L); // jpa 기본제공
-        List<Article> articles = articleService.findAll(); // jpa 기본제공
+        Article article1 = articleService.write(member1, "제목 1", "내용 1").getData();
+        Article article2 = articleService.write(member1, "제목 2", "내용 2").getData();
+        Article article3 = articleService.write(member2, "제목 3", "내용 3").getData();
+        Article article4 = articleService.write(member2, "제목 4", "내용 4").getData();
 
     }
 }

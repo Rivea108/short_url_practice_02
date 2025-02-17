@@ -16,8 +16,9 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
-    private Optional<Member> findByUsername(String username) {
+    
+    @Transactional
+    public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
     }
 
@@ -41,5 +42,9 @@ public class MemberService {
 
     public Member getReferenceById(long id) {
         return memberRepository.getReferenceById(id);
+    }
+
+    public long count() {
+        return memberRepository.count();
     }
 }
