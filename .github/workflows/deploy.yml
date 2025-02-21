@@ -9,7 +9,7 @@ on:
       - 'readme.md'
       - 'infraScript/**'
     branches:
-      - 'main' # 파일의 브랜치 명에 맞추기
+      - 'main' # 브랜치 주의
 jobs:
   makeTagAndRelease:
     runs-on: ubuntu-latest
@@ -34,6 +34,9 @@ jobs:
           draft: false
           prerelease: false
   buildImageAndPush:
+    permissions:
+      contents: read
+      packages: write
     name: 도커 이미지 빌드와 푸시
     needs: makeTagAndRelease
     runs-on: ubuntu-latest
@@ -73,14 +76,14 @@ jobs:
         uses: peterkimzz/aws-ssm-send-command@master
         id: ssm
         with:
-          aws-region: ap-northeast-2
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          instance-ids: "i-093be97b4235386b0"
+          aws-region: ${{ secrets.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          instance-ids: "i-00941b6ef0614763b"
           working-directory: /
           comment: Deploy
           command: |
             mkdir -p /dockerProjects/surl
-            curl -o /dockerProjects/surl/zero_downtime_deploy.py https://raw.githubusercontent.com/Rivea108/short_url_practice_02/main/infraScript/zero_downtime_deploy.py # 브랜치 주의
+            curl -o /dockerProjects/surl/zero_downtime_deploy.py https://raw.githubusercontent.com/Rivea108/short_url_practice_02/main/infraScript/zero_downtime_deploy.py 
             chmod +x /dockerProjects/surl/zero_downtime_deploy.py
             /dockerProjects/surl/zero_downtime_deploy.py
