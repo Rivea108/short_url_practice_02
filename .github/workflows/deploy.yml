@@ -79,11 +79,11 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          instance-ids: "i-00941b6ef0614763b"
+          instance-ids: "i-0d4db4e5acf7292a9"
           working-directory: /
           comment: Deploy
           command: |
             mkdir -p /dockerProjects/surl
-            curl -o /dockerProjects/surl/zero_downtime_deploy.py https://raw.githubusercontent.com/Rivea108/short_url_practice_02/main/infraScript/zero_downtime_deploy.py 
+            curl -o /dockerProjects/surl/zero_downtime_deploy.py https://raw.githubusercontent.com/Rivea108/short_url_project_02/main/infraScript/zero_downtime_deploy.py 
             chmod +x /dockerProjects/surl/zero_downtime_deploy.py
             /dockerProjects/surl/zero_downtime_deploy.py

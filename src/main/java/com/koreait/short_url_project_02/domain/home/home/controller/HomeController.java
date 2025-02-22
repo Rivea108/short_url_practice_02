@@ -17,7 +17,11 @@ public class HomeController {
     @GetMapping("/")
     @ResponseBody
     public String home() {
+<<<<<<< HEAD
         return "123Main Page!!! " + customSiteName;
+=======
+        return "123455678Main Page!!! " + customSiteName;
+>>>>>>> 64b4c24 (자동배포 테스트)
     }
 
     @GetMapping("/secretKey")
@@ -25,4 +29,8 @@ public class HomeController {
     public String secretKey() {
         return "secretKey :  " + secretKey;
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 64b4c24 (자동배포 테스트)

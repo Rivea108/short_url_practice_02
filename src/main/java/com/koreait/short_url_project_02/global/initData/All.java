@@ -34,6 +34,11 @@ public class All {
     public void work1() {
         log.debug("initAll start");
 
+<<<<<<< HEAD
+=======
+        log.info("initAll start");
+
+>>>>>>> 64b4c24 (자동배포 테스트)
         if (memberService.count() > 0) return;
 
         Member memberSystem = memberService.join("system", "1234", "시스템").getData();
