@@ -77,6 +77,7 @@ nginx proxy manager 관리콘솔에 접속 및 세팅
 ![](https://velog.velcdn.com/images/rivae_108/post/fbb8b818-3805-4632-be86-4296d81b914b/image.png)
 
 에러
-![](https://velog.velcdn.com/images/rivae_108/post/aa4a5680-8c7d-4a80-a8d3-36ea53f8e0a6/image.png)
+![image](https://github.com/user-attachments/assets/dafc2670-6140-47b5-aaa5-beeac3087662)
+
 
 
