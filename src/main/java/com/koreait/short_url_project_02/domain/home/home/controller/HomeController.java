@@ -18,10 +18,14 @@ public class HomeController {
     @ResponseBody
     public String home() {
 <<<<<<< HEAD
+<<<<<<< HEAD
         return "123Main Page!!! " + customSiteName;
 =======
         return "123455678Main Page!!! " + customSiteName;
 >>>>>>> 64b4c24 (자동배포 테스트)
+=======
+        return "123455678Main Page!!! " + customSiteName;
+>>>>>>> b9b020f (ids 변경)
     }
 
     @GetMapping("/secretKey")
